@@ -1,9 +1,24 @@
 package org.lushplugins.connections;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.lushplugins.connections.command.FriendCommand;
+import org.lushplugins.connections.storage.StorageManager;
+import org.lushplugins.connections.user.ConnectionsUser;
+import org.lushplugins.connections.user.UserCache;
+import org.lushplugins.connections.utils.lamp.parameter.ConnectionsUserContextParameter;
+import org.lushplugins.connections.utils.lamp.response.MessageResponseHandler;
+import org.lushplugins.lushlib.libraries.jackson.databind.ObjectMapper;
+import org.lushplugins.lushlib.plugin.SpigotPlugin;
+import org.lushplugins.lushlib.serializer.JacksonHelper;
+import revxrsal.commands.Lamp;
+import revxrsal.commands.bukkit.BukkitLamp;
+import revxrsal.commands.bukkit.actor.BukkitCommandActor;
 
-public final class RegrowthConnections extends JavaPlugin {
+public final class RegrowthConnections extends SpigotPlugin {
+    public static final ObjectMapper JACKSON_MAPPER = JacksonHelper.addCustomSerializers(new ObjectMapper());
     private static RegrowthConnections plugin;
+
+    private UserCache userCache;
+    private StorageManager storageManager;
 
     @Override
     public void onLoad() {
@@ -12,12 +27,35 @@ public final class RegrowthConnections extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Enable implementation
+        this.userCache = new UserCache();
+        this.storageManager = new StorageManager();
+
+        registerListener(new org.lushplugins.connections.utils.UserCache.Listener<>(this.userCache));
+
+        Lamp<BukkitCommandActor> lamp = BukkitLamp.builder(this)
+            .parameterTypes(parameters -> {
+                parameters.addContextParameterFactory(new ConnectionsUserContextParameter());
+            })
+            .suggestionProviders(providers -> {
+                providers.addProvider(ConnectionsUser.class, new ConnectionsUserContextParameter.SuggestionProvider());
+            })
+            .responseHandler(String.class, new MessageResponseHandler())
+            .build();
+
+        lamp.register(new FriendCommand());
     }
 
     @Override
     public void onDisable() {
         // Disable implementation
+    }
+
+    public UserCache getUserManager() {
+        return userCache;
+    }
+
+    public StorageManager getStorageManager() {
+        return storageManager;
     }
 
     public static RegrowthConnections getInstance() {
