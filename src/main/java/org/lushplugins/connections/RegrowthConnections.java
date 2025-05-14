@@ -1,11 +1,13 @@
 package org.lushplugins.connections;
 
 import org.lushplugins.connections.command.FriendCommand;
+import org.lushplugins.connections.config.Message;
 import org.lushplugins.connections.storage.StorageManager;
 import org.lushplugins.connections.user.ConnectionsUser;
 import org.lushplugins.connections.user.UserCache;
 import org.lushplugins.connections.utils.lamp.parameter.ConnectionsUserContextParameter;
 import org.lushplugins.connections.utils.lamp.response.MessageResponseHandler;
+import org.lushplugins.connections.utils.lamp.response.StringMessageResponseHandler;
 import org.lushplugins.lushlib.libraries.jackson.databind.ObjectMapper;
 import org.lushplugins.lushlib.plugin.SpigotPlugin;
 import org.lushplugins.lushlib.serializer.JacksonHelper;
@@ -39,7 +41,8 @@ public final class RegrowthConnections extends SpigotPlugin {
             .suggestionProviders(providers -> {
                 providers.addProvider(ConnectionsUser.class, new ConnectionsUserContextParameter.SuggestionProvider());
             })
-            .responseHandler(String.class, new MessageResponseHandler())
+            .responseHandler(Message.class, new MessageResponseHandler())
+            .responseHandler(String.class, new StringMessageResponseHandler())
             .build();
 
         lamp.register(new FriendCommand());
