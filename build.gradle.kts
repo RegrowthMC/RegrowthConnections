@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     // Dependencies
-    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     compileOnly("mysql:mysql-connector-java:8.0.33")
     compileOnly("org.xerial:sqlite-jdbc:3.46.0.0")
 
