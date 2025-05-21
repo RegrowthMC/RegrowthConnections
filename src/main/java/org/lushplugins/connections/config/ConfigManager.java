@@ -5,7 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.Nullable;
 import org.lushplugins.connections.RegrowthConnections;
 import org.lushplugins.connections.locale.Locale;
-import org.lushplugins.connections.menu.button.CategoryButton;
+import org.lushplugins.connections.menu.button.ConnectionTypeButton;
 import org.lushplugins.connections.menu.button.ConnectionButton;
 import org.lushplugins.lushlib.gui.button.Button;
 import org.lushplugins.lushlib.gui.button.SimpleItemButton;
@@ -18,8 +18,8 @@ import org.lushplugins.lushlib.utils.YamlUtils;
 import org.lushplugins.lushlib.utils.converter.YamlConverter;
 
 public class ConfigManager {
-    private GuiBlueprint categoryMenu;
-    private GuiBlueprint categoriesMenu;
+    private GuiBlueprint connectionsMenu;
+    private GuiBlueprint connectionTypesMenu;
     private Locale locale;
 
     public ConfigManager() {
@@ -31,16 +31,18 @@ public class ConfigManager {
         plugin.reloadConfig();
         FileConfiguration config = plugin.getConfig();
 
-        ConfigurationSection categoryMenuSection = config.getConfigurationSection("category-menu");
-        if (categoryMenuSection != null) {
-            GuiLayer layer = new GuiLayer(categoryMenuSection.getStringList("format"));
+        ConfigurationSection connectionsMenuSection = config.getConfigurationSection("connections-menu");
+        if (connectionsMenuSection != null) {
+            GuiLayer layer = new GuiLayer(connectionsMenuSection.getStringList("format"));
 
-            for (ConfigurationSection buttonSection : YamlUtils.getConfigurationSections(categoryMenuSection, "buttons")) {
+            for (ConfigurationSection buttonSection : YamlUtils.getConfigurationSections(connectionsMenuSection, "buttons")) {
                 Button button;
                 String type = buttonSection.getString("type");
                 DisplayItemStack item = YamlConverter.getDisplayItem(buttonSection);
                 switch (type) {
-                    case "listed_member" -> button = new ConnectionButton(item);
+                    case "connection" -> button = new ConnectionButton(item);
+                    case "previous_page" -> button = new PreviousPageButton(item);
+                    case "next_page" -> button = new NextPageButton(item);
                     case null, default -> {
                         switch (buttonSection.getName()) {
                             case "<" -> button = new PreviousPageButton(item);
@@ -53,26 +55,26 @@ public class ConfigManager {
                 layer.setButton(buttonSection.getName().charAt(0), button);
             }
 
-            this.categoryMenu = new GuiBlueprint(
-                categoryMenuSection.getString("title"),
+            this.connectionsMenu = new GuiBlueprint(
+                connectionsMenuSection.getString("title"),
                 layer
             );
         } else {
-            this.categoryMenu = null;
+            this.connectionsMenu = null;
         }
 
-        ConfigurationSection categoriesMenuSection = config.getConfigurationSection("categories-menu");
-        if (categoriesMenuSection != null) {
-            GuiLayer layer = new GuiLayer(categoriesMenuSection.getStringList("format"));
+        ConfigurationSection connectionTypesMenuSection = config.getConfigurationSection("connection-types-menu");
+        if (connectionTypesMenuSection != null) {
+            GuiLayer layer = new GuiLayer(connectionTypesMenuSection.getStringList("format"));
 
-            for (ConfigurationSection buttonSection : YamlUtils.getConfigurationSections(categoriesMenuSection, "buttons")) {
+            for (ConfigurationSection buttonSection : YamlUtils.getConfigurationSections(connectionTypesMenuSection, "buttons")) {
                 Button button;
                 String type = buttonSection.getString("type");
                 switch (type) {
-                    case "category" -> {
-                        String categoryName = buttonSection.getString("category");
+                    case "connection_type" -> {
+                        String categoryName = buttonSection.getString("connection-type");
                         DisplayItemStack item = YamlConverter.getDisplayItem(buttonSection);
-                        button = new CategoryButton(categoryName, item);
+                        button = new ConnectionTypeButton(categoryName, item);
                     }
                     case null, default -> {
                         DisplayItemStack item = YamlConverter.getDisplayItem(buttonSection);
@@ -83,12 +85,12 @@ public class ConfigManager {
                 layer.setButton(buttonSection.getName().charAt(0), button);
             }
 
-            this.categoriesMenu = new GuiBlueprint(
-                categoriesMenuSection.getString("title"),
+            this.connectionTypesMenu = new GuiBlueprint(
+                connectionTypesMenuSection.getString("title"),
                 layer
             );
         } else {
-            this.categoriesMenu = null;
+            this.connectionTypesMenu = null;
         }
 
         this.locale = new Locale();
@@ -98,12 +100,12 @@ public class ConfigManager {
         }
     }
 
-    public GuiBlueprint getCategoryMenu() {
-        return categoryMenu;
+    public GuiBlueprint getConnectionsMenu() {
+        return connectionsMenu;
     }
 
-    public GuiBlueprint getCategoriesMenu() {
-        return categoriesMenu;
+    public GuiBlueprint getConnectionTypesMenu() {
+        return connectionTypesMenu;
     }
 
     public @Nullable String getMessage(String key) {

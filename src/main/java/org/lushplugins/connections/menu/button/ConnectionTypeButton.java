@@ -10,18 +10,18 @@ import org.lushplugins.lushlib.gui.button.SimpleItemButton;
 import org.lushplugins.lushlib.gui.inventory.GuiBlueprint;
 import org.lushplugins.lushlib.utils.DisplayItemStack;
 
-public class CategoryButton extends SimpleItemButton {
+public class ConnectionTypeButton extends SimpleItemButton {
     private final String connectionType;
 
-    public CategoryButton(String category, DisplayItemStack item) {
+    public ConnectionTypeButton(String connectionType, DisplayItemStack item) {
         super(item, (event) -> {
-            GuiBlueprint blueprint = RegrowthConnections.getInstance().getConfigManager().getCategoryMenu();
+            GuiBlueprint blueprint = RegrowthConnections.getInstance().getConfigManager().getConnectionsMenu();
 
-            ConnectionTypeGui gui = new ConnectionTypeGui(blueprint.getLayers(), blueprint.getTitle(), (Player) event.getWhoClicked());
+            ConnectionTypeGui gui = new ConnectionTypeGui(connectionType, blueprint.getLayers(), blueprint.getTitle(), (Player) event.getWhoClicked());
             gui.open();
         });
 
-        this.connectionType = category;
+        this.connectionType = connectionType;
     }
 
     @Override
