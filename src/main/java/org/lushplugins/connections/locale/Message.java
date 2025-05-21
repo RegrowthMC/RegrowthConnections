@@ -1,4 +1,4 @@
-package org.lushplugins.connections.config;
+package org.lushplugins.connections.locale;
 
 import org.jetbrains.annotations.Nullable;
 import org.lushplugins.connections.RegrowthConnections;
@@ -22,7 +22,7 @@ public class Message {
         return new Message(content);
     }
 
-    public static Message withKey(String key) {
+    public static Message fromLocale(String key) {
         return new Message(RegrowthConnections.getInstance().getConfigManager().getMessage(key));
     }
 }

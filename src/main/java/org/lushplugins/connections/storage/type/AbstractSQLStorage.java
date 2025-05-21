@@ -46,7 +46,7 @@ public abstract class AbstractSQLStorage implements Storage {
             if (results.next()) {
                 List<UUID> incomingRequests;
                 List<UUID> outgoingRequests;
-                Map<UUID, String> connections;
+                Map<UUID, ConnectionsUser.Connection> connections;
                 try {
                     incomingRequests = RegrowthConnections.JACKSON_MAPPER.readValue(results.getString("incoming_requests"), new TypeReference<>() {});
                     outgoingRequests = RegrowthConnections.JACKSON_MAPPER.readValue(results.getString("outgoing_requests"), new TypeReference<>() {});

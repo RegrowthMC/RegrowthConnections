@@ -1,0 +1,51 @@
+
+category-menu:
+  buttons:
+    "@":
+      type: connection
+      material: player_head
+      skull-texture: "%target%"
+    ">": # TODO: Detect that ">" has a default type of "next_page"
+      material: arrow
+      display-name: "Next page"
+    "<": # TODO: Detect that "<" has a default type of "previous_page"
+      material: arrow
+      display-name: "Previous page"
+    "#":
+      material: lime_stained_glass_pane
+      display-name: "&r"
+  format:
+    - "@@@@@@@@@"
+    - "@@@@@@@@@"
+    - "@@@@@@@@@"
+    - "@@@@@@@@@"
+    - "@@@@@@@@@"
+    - "###<#>###"
+
+categories-menu:
+  buttons:
+    "F":
+      type: category
+      category: ignored
+      material: pink_tulip
+      display-name: "Friends"
+      lore:
+        - "You currently have %amount% friends"
+    "B":
+      type: category
+      category: ignored
+      material: pink_petals
+      display-name: "Besties"
+      lore:
+        - "You currently have %amount% besties"
+    "I":
+      type: category
+      category: ignored
+      material: barrier
+      display-name: "Ignored Players"
+      lore:
+        - "You are currently ignoring %amount% players"
+  format:
+    - "         "
+    - "   FBI   "
+    - "         "

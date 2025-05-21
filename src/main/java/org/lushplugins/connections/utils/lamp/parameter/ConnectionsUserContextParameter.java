@@ -10,7 +10,6 @@ import org.lushplugins.connections.utils.lamp.parameter.annotation.CachedUser;
 import revxrsal.commands.Lamp;
 import revxrsal.commands.annotation.list.AnnotationList;
 import revxrsal.commands.autocomplete.AsyncSuggestionProvider;
-import revxrsal.commands.autocomplete.SuggestionProvider;
 import revxrsal.commands.bukkit.actor.BukkitCommandActor;
 import revxrsal.commands.command.CommandActor;
 import revxrsal.commands.node.ExecutionContext;
@@ -36,7 +35,7 @@ public class ConnectionsUserContextParameter implements ContextParameter.Factory
             return null;
         }
 
-        return (parameter, context) -> (T) RegrowthConnections.getInstance().getUserManager().getCachedUser(context.actor().uniqueId());
+        return (parameter, context) -> (T) RegrowthConnections.getInstance().getUserCache().getCachedUser(context.actor().uniqueId());
     }
 
     public static class SuggestionProvider implements revxrsal.commands.autocomplete.SuggestionProvider<BukkitCommandActor>, AsyncSuggestionProvider<BukkitCommandActor> {

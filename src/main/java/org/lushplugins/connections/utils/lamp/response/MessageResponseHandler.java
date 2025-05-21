@@ -1,6 +1,6 @@
 package org.lushplugins.connections.utils.lamp.response;
 
-import org.lushplugins.connections.config.Message;
+import org.lushplugins.connections.locale.Message;
 import org.lushplugins.lushlib.libraries.chatcolor.ChatColorHandler;
 import revxrsal.commands.bukkit.actor.BukkitCommandActor;
 import revxrsal.commands.node.ExecutionContext;

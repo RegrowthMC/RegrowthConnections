@@ -1,7 +1,8 @@
 package org.lushplugins.connections;
 
 import org.lushplugins.connections.command.FriendCommand;
-import org.lushplugins.connections.config.Message;
+import org.lushplugins.connections.config.ConfigManager;
+import org.lushplugins.connections.locale.Message;
 import org.lushplugins.connections.storage.StorageManager;
 import org.lushplugins.connections.user.ConnectionsUser;
 import org.lushplugins.connections.user.UserCache;
@@ -19,6 +20,7 @@ public final class RegrowthConnections extends SpigotPlugin {
     public static final ObjectMapper JACKSON_MAPPER = JacksonHelper.addCustomSerializers(new ObjectMapper());
     private static RegrowthConnections plugin;
 
+    private ConfigManager configManager;
     private UserCache userCache;
     private StorageManager storageManager;
 
@@ -29,10 +31,12 @@ public final class RegrowthConnections extends SpigotPlugin {
 
     @Override
     public void onEnable() {
+        this.configManager = new ConfigManager();
+        this.configManager.reloadConfig();
         this.userCache = new UserCache();
         this.storageManager = new StorageManager();
 
-        registerListener(new org.lushplugins.connections.utils.UserCache.Listener<>(this.userCache));
+        registerListener(new UserCache.Listener<>(this.userCache));
 
         Lamp<BukkitCommandActor> lamp = BukkitLamp.builder(this)
             .parameterTypes(parameters -> {
@@ -53,7 +57,11 @@ public final class RegrowthConnections extends SpigotPlugin {
         // Disable implementation
     }
 
-    public UserCache getUserManager() {
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
+
+    public UserCache getUserCache() {
         return userCache;
     }
 

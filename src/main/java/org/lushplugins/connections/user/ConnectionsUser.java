@@ -10,14 +10,14 @@ public class ConnectionsUser {
     private final String username;
     private final List<UUID> incomingRequests;
     private final List<UUID> outgoingRequests;
-    private final Map<UUID, String> connections;
+    private final Map<UUID, Connection> connections;
 
     public ConnectionsUser(
         @NotNull UUID uuid,
         @Nullable String username,
         @NotNull List<UUID> incomingRequests,
         @NotNull List<UUID> outgoingRequests,
-        @NotNull Map<UUID, String> connections
+        @NotNull Map<UUID, Connection> connections
     ) {
         this.uuid = uuid;
         this.username = username;
@@ -54,11 +54,13 @@ public class ConnectionsUser {
         return this.connections.containsKey(uuid);
     }
 
-    public @Nullable String getConnectionWith(UUID uuid) {
+    public @Nullable Connection getConnectionWith(UUID uuid) {
         return this.connections.get(uuid);
     }
 
-    public Map<UUID, String> getConnectionsMap() {
+    public Map<UUID, Connection> getConnectionsMap() {
         return this.connections;
     }
+
+    public record Connection(String connectionType) {}
 }
