@@ -25,7 +25,7 @@ dependencies {
     // Soft Dependencies
 
     // Libraries
-    implementation("org.lushplugins:LushLib:0.10.71")
+    implementation("org.lushplugins:LushLib:0.10.73")
     implementation("com.zaxxer:HikariCP:5.0.1")
     implementation("io.github.revxrsal:lamp.common:4.0.0-rc.12")
     implementation("io.github.revxrsal:lamp.bukkit:4.0.0-rc.12")
