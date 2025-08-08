@@ -26,7 +26,7 @@ dependencies {
 
     // Libraries
     implementation("org.lushplugins:LushLib:0.10.79")
-    implementation("com.zaxxer:HikariCP:7.0.0")
+    implementation("com.zaxxer:HikariCP:7.0.1")
     implementation("io.github.revxrsal:lamp.common:4.0.0-rc.12")
     implementation("io.github.revxrsal:lamp.bukkit:4.0.0-rc.12")
 }
